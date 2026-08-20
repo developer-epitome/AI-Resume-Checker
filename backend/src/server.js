@@ -26,7 +26,14 @@ const app = express();
 app.set("trust proxy", 1);
 app.use(
     cors({
-        origin: true, // reflect-request originallows everything while keeping credentials
+        // origin: true, // reflect-request originallows everything while keeping credentials
+        origin: (origin, callback) => {
+      if (!origin || env.clientOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
         credentials: true,
     })
 );
