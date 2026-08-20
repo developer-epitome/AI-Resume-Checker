@@ -49,24 +49,51 @@ app.use(notFound);
 app.use(errorHandler);
 
 
-async function start() {
-    try {
-      await connectDB();
-      app.listen(env.port, () => {
-        console.log(`Server listening on http://localhost:${env.port} (${env.nodeEnv})`); 
-      }); 
-    } catch (err) {
-      console.error("Failed to start server:", err.message);
-      process.exit(1);
-    }
-} 
+// async function start() {
+//     try {
+//       await connectDB();
+//       app.listen(env.port, () => {
+//         console.log(`Server listening on http://localhost:${env.port} (${env.nodeEnv})`); 
+//       }); 
+//     } catch (err) {
+//       console.error("Failed to start server:", err.message);
+//       process.exit(1);
+//     }
+// } 
 
+
+// process.on("unhandledRejection", (reason) => {
+//     console.error("Unhandled rejection:", reason);
+// });
+
+// start();
+
+
+
+async function start() {
+  try {
+    await connectDB();
+
+    if (!env.isProd) {
+      app.listen(env.port, () => {
+        console.log(
+          `Server listening on http://localhost:${env.port} (${env.nodeEnv})`
+        );
+      });
+    }
+  } catch (err) {
+    console.error("Failed to connect to database:", err.message);
+    throw err;
+  }
+}
 
 process.on("unhandledRejection", (reason) => {
-    console.error("Unhandled rejection:", reason);
+  console.error("Unhandled rejection:", reason);
 });
 
-start();
+if (!env.isProd) {
+  start();
+}
 
 
 module.exports = app;
