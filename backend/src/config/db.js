@@ -6,6 +6,7 @@ mongoose.set("strictQuery", true);
 async function connectDB(){
     const conn = await mongoose.connect(env.mongoUri, { 
       serverSelectionTimeoutMS: 10_000,
+      family: 4,
     });
     console.log(`MongoDB connected: ${conn.connection.host}/${conn.connection.name}`);
 
