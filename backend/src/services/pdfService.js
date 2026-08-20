@@ -1,11 +1,13 @@
-const { PDFParse } = require("pdf-parse");
 const ApiError = require("../utils/ApiError");
 
 
 async function extractText(buffer) {
     let parser;
     try {
-        parser = new PDFParse({ data: buffer });
+
+      const { PDFParse } = require("pdf-parse");
+
+      parser = new PDFParse({ data: buffer });
         const result = await parser.getText();
 
         const text = (result.text || "").trim();
