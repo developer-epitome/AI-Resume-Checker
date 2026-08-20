@@ -35,6 +35,19 @@ app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(cookieParser()); 
 if (!env.isProd) app.use(morgan("dev"));
 
+if (env.isProd) {
+  app.use(async (req, res, next) => {
+    try {
+      await connectDB();
+      next();
+    } catch (err) {
+      console.error("Failed to connect to database:", err.message);
+      next(err);
+    }
+  });
+}
+
+
 app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/resumes", resumesRouter);
@@ -92,12 +105,8 @@ process.on("unhandledRejection", (reason) => {
 });
 
 
-if (env.isProd) {
-  // Connect to MongoDB when the Vercel function initializes.
-  connectDB().catch((err) => {
-    console.error("Failed to connect to database:", err.message);
-  });
-} else {
+
+if (!env.isProd) {
   start();
 }
 
