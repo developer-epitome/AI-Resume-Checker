@@ -91,7 +91,13 @@ process.on("unhandledRejection", (reason) => {
   console.error("Unhandled rejection:", reason);
 });
 
-if (!env.isProd) {
+
+if (env.isProd) {
+  // Connect to MongoDB when the Vercel function initializes.
+  connectDB().catch((err) => {
+    console.error("Failed to connect to database:", err.message);
+  });
+} else {
   start();
 }
 
