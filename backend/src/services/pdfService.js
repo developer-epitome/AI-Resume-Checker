@@ -4,10 +4,14 @@ const ApiError = require("../utils/ApiError");
 async function extractText(buffer) {
     let parser;
     try {
-
+      const { CanvasFactory } = require("pdf-parse/worker");
       const { PDFParse } = require("pdf-parse");
 
-      parser = new PDFParse({ data: buffer });
+      // parser = new PDFParse({ data: buffer });
+         parser = new PDFParse({
+            data: new Uint8Array(buffer),
+            CanvasFactory,
+         });
         const result = await parser.getText();
 
         const text = (result.text || "").trim();
