@@ -24,7 +24,7 @@ async function extractText(buffer) {
            },
          };
      } catch (err) {
-       if (err.isoperational) throw err;
+       if (err.isOperational) throw err;
        throw ApiError.badRequest("Failed to parse PDF: " + err.message);
      } finally {
        try {
@@ -34,6 +34,8 @@ async function extractText(buffer) {
      }
    }
 }
+
+      
 
 
 module.exports = { extractText };
