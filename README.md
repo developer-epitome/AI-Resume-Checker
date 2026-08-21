@@ -76,7 +76,6 @@ The application includes:
 - User registration
 - Secure login
 - JWT authentication
-- HTTP-only cookies
 - Protected routes
 - Logout functionality
 - Password hashing
