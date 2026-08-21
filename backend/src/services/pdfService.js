@@ -7,6 +7,7 @@ async function extractText(buffer) {
       const { CanvasFactory } = require("pdf-parse/worker");
       const { PDFParse } = require("pdf-parse");
 
+
       // parser = new PDFParse({ data: buffer });
          parser = new PDFParse({
             data: new Uint8Array(buffer),
